@@ -1,6 +1,7 @@
 ✈️ 机场推荐合集（自用整理）
 
 一个基于个人使用体验整理的机场合集页面，已制作成 HTML 可视化网站，开箱即用。
+网站地址https://661015.xyz
 
 ## 🌐 项目简介
 
@@ -49,10 +50,10 @@ https://xsus1.com/register?code=RhcmDfGp
 ### iNetS（直连 · 节点少 · 倍率1）
 https://inets.io/#/register?code=BDMQDfCD
 
-### 赔钱
+### 赔钱机场
 https://www.xn--mes358aby2apfg.site/register?code=Gqk4rFHN&cover=sfw
 
-### 牛逼
+### 牛逼机场
 https://6.66jc.top/#/login?code=rquiTQW6
 
 ### 龙猫云
