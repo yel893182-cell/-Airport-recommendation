@@ -4,231 +4,188 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>机场推荐合集【小秋】</title>
-    
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-
     <style>
         :root {
             --bg: #0a0f1e;
             --card-bg: #161e31;
             --accent: #3b82f6;
-            --success: #10b981;
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
+            --text: #f8fafc;
+            --dim: #94a3b8;
         }
 
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: var(--bg);
-            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-            color: var(--text-main);
-            overflow: hidden; /* 验证前禁止滚动 */
-        }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); color: var(--text); font-family: sans-serif; overflow: hidden; }
 
-        /* --- 全屏验证层 --- */
+        /* 全屏验证层 */
         #lock-screen {
-            position: fixed; inset: 0;
-            background: radial-gradient(circle at center, #1e293b 0%, #0a0f1e 100%);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 9999;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed; inset: 0; background: radial-gradient(circle, #1e293b, #0a0f1e);
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
         }
+        .verify-box { text-align: center; padding: 40px; background: rgba(22, 30, 49, 0.9); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); width: 90%; max-width: 380px; }
 
-        .verify-box {
-            text-align: center; padding: 40px;
-            background: rgba(22, 30, 49, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-            width: 90%; max-width: 400px;
-        }
+        /* 主内容层 */
+        #main-content { display: none; opacity: 0; transition: 0.8s; }
+        header { background: linear-gradient(135deg, #1d4ed8, #7e22ce); padding: 50px 20px; text-align: center; }
+        .container { max-width: 1000px; margin: -30px auto 40px; padding: 0 20px; }
 
-        /* --- 主内容容器 --- */
-        #content-wrapper { display: none; opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        /* 标签与说明卡片 */
+        .info-card { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .tag { display: inline-block; background: #1e293b; padding: 4px 10px; margin: 4px; border-radius: 6px; font-size: 12px; color: var(--dim); }
 
-        header {
-            background: linear-gradient(135deg, #1d4ed8 0%, #7e22ce 100%);
-            padding: 60px 20px; text-align: center;
-            clip-path: ellipse(150% 100% at 50% 0%);
-        }
+        /* 列表布局 */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .item-card { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .item-card h3 { margin: 0 0 10px; font-size: 18px; color: var(--accent); }
+        .item-card p { font-size: 13px; color: var(--dim); margin-bottom: 15px; }
+        
+        /* 金色字体样式 */
+        .gold-text { color: #FFD700 !important; font-weight: bold; }
 
-        .container { max-width: 1100px; margin: -40px auto 40px; padding: 0 20px; }
-
-        /* --- 卡片布局 --- */
-        .url-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-
-        .url-card {
-            background: var(--card-bg); padding: 24px; border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease; display: flex; flex-direction: column;
-        }
-
-        .url-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .url-card h3 { margin: 0 0 10px; color: var(--accent); font-size: 1.2rem; }
-        .url-card p { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; line-height: 1.5; flex-grow: 1; }
-
-        .btn-link {
-            display: block; text-align: center;
-            background: linear-gradient(to right, #2563eb, #3b82f6);
-            color: white; text-decoration: none;
-            padding: 12px; border-radius: 10px; font-weight: 600; font-size: 14px;
-        }
-
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-        .tag-cloud { margin-bottom: 30px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-        .tag { background: #1e293b; color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.05); }
-
-        footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 12px; }
+        .btn { display: block; text-align: center; background: #2563eb; color: white; text-decoration: none; padding: 10px; border-radius: 8px; font-size: 14px; margin-top: 5px; }
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     </style>
 </head>
 <body>
 
     <div id="lock-screen">
         <div class="verify-box">
-            <h2 style="margin-top:0;">安全验证</h2>
-            <p>正在检测访问环境，请完成下方验证</p>
-            <div class="cf-turnstile" data-sitekey="0x4AAAAAADF3hCOFcwaMxvx3" data-callback="onSuccess" data-theme="dark"></div>
+            <h2 style="margin-top:0">安全验证</h2>
+            <p style="color:var(--dim); font-size:14px">请完成验证以查看合集内容</p>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAADF3hCOFcwaMxvx3" data-callback="unlock"></div>
         </div>
     </div>
 
-    <div id="content-wrapper">
+    <div id="main-content">
         <header>
-            <h1 style="margin:0; font-size: 2rem;">✈️ 机场推荐合集（小秋）</h1>
-            [span_1](start_span)<p style="opacity: 0.8; margin-top:10px;">整理于[span_1](end_span) 邀请链接</p>
+            <h1 style="margin:0">✈️ 机场推荐合集【小秋】</h1>
         </header>
 
         <div class="container">
-            <div class="tag-cloud">
-                <span class="tag">魔戒</span><span class="tag">赔钱</span><span class="tag">一分</span><span class="tag">飞鸟云</span>
-                <span class="tag">可乐云</span><span class="tag">Take off</span><span class="tag">XSUS</span><span class="tag" style="color:gold;">AnyTLS[遥遥领先]</span>
-                <span class="tag">龙猫云</span><span class="tag">悠兔</span><span class="tag">一云梯</span><span class="tag">万达云</span>
-                <span class="tag">SSRDOG</span><span class="tag">良心云</span><span class="tag">TAG</span><span class="tag">蓝莓桥</span><span class="tag">iNetS</span>
+            <div class="info-card">
+                <div style="text-align:center">
+                    <span class="tag">魔戒</span><span class="tag">赔钱</span><span class="tag">一分</span><span class="tag">飞鸟云</span>
+                    <span class="tag">可乐云</span><span class="tag">Take off</span><span class="tag">XSUS</span><span class="tag">AnyTLS[遥遥领先]</span>
+                    <span class="tag">龙猫云</span><span class="tag">悠兔</span><span class="tag">一云梯</span><span class="tag">万达云</span>
+                    <span class="tag">SSRDOG</span><span class="tag">良心云</span><span class="tag">TAG</span><span class="tag">蓝莓桥</span><span class="tag">iNetS</span>
+                </div>
             </div>
 
-            <div class="url-grid">
-                <div class="url-card">
-                    <h3>良心云</h3>
-                    [span_2](start_span)<p>直连线路[span_2](end_span)</p>
-                    <a href="https://xn--9kqz23b19z.com/#/register?code=UTpQq1dO" target="_blank" class="btn-link">点击进入网站</a>
+            <div class="info-card" style="font-size:14px; line-height:1.6">
+                <strong>📊 线路说明：</strong><br>
+                [span_2](start_span)• speedcat、龙猫云、Flyingbird、一云梯是相同线路类型[span_2](end_span)<br>
+                [span_3](start_span)• Shadowsocks、V2ray 和 Trojan 三种协议[span_3](end_span)<br>
+                [span_4](start_span)• IPLC、IEPL专线[span_4](end_span)
+            </div>
+
+            <div class="grid">
+                <div class="item-card">
+                    <h3 class="gold-text">良心云</h3>
+                    <p>直连</p>
+                    <a href="https://xn--9kqz23b19z.com/#/register?code=UTpQq1dO" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>蓝莓桥</h3>
-                    [span_3](start_span)<p>备选高速线路[span_3](end_span)</p>
+                    <p>备用地址</p>
                     <div class="btn-group">
-                        <a href="https://berrypass.net/#/register?code=rHhSH0vz" target="_blank" class="btn-link">链接 1</a>
-                        <a href="https://berrypass.net/#/register?code=l0pRfv8d" target="_blank" class="btn-link">链接 2</a>
+                        <a href="https://berrypass.net/#/register?code=rHhSH0vz" target="_blank" class="btn">链接 1</a>
+                        <a href="https://berrypass.net/#/register?code=l0pRfv8d" target="_blank" class="btn">链接 2</a>
                     </div>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>XSUS</h3>
-                    [span_4](start_span)<p>稳定推荐[span_4](end_span)</p>
-                    <a href="https://xsus1.com/register?code=RhcmDfGp" target="_blank" class="btn-link">点击进入网站</a>
+                    <p>稳定推荐</p>
+                    <a href="https://xsus1.com/register?code=RhcmDfGp" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>iNetS</h3>
-                    [span_5](start_span)<p>直连节点极少，倍率 1[span_5](end_span)</p>
-                    <a href="https://inets.io/#/register?code=BDMQDfCD" target="_blank" class="btn-link">点击进入网站</a>
+                    <p>直连 节点极少 倍率1</p>
+                    <a href="https://inets.io/#/register?code=BDMQDfCD" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>赔钱</h3>
-                    [span_6](start_span)<p>性价比首选[span_6](end_span)</p>
-                    <a href="https://www.xn--mes358aby2apfg.site/register?code=Gqk4rFHN&cover=sfw" target="_blank" class="btn-link">点击进入网站</a>
+                    <p>高性价比</p>
+                    <a href="https://www.xn--mes358aby2apfg.site/register?code=Gqk4rFHN&cover=sfw" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>牛逼</h3>
-                    [span_7](start_span)<p>快速访问[span_7](end_span)</p>
-                    <a href="https://6.66jc.top/#/login?code=rquiTQW6" target="_blank" class="btn-link">点击进入网站</a>
+                    <p>快速入口</p>
+                    <a href="https://6.66jc.top/#/login?code=rquiTQW6" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>龙猫云</h3>
-                    [span_8](start_span)<p>中转优化线路[span_8](end_span)</p>
+                    <p>相同线路推荐</p>
                     <div class="btn-group">
-                        <a href="https://inv06.lmaff01.cc/register?aff=zGMaXnSO" target="_blank" class="btn-link">链接 1</a>
-                        <a href="https://inv06.lmaff01.cc/register?aff=aVdhAiTe" target="_blank" class="btn-link">链接 2</a>
+                        <a href="https://inv06.lmaff01.cc/register?aff=zGMaXnSO" target="_blank" class="btn">链接 1</a>
+                        <a href="https://inv06.lmaff01.cc/register?aff=aVdhAiTe" target="_blank" class="btn">链接 2</a>
                     </div>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>悠兔</h3>
-                    [span_9](start_span)<p>SS 协议，中转线路[span_9](end_span)</p>
-                    <a href="https://777.youtu6.shop/register?code=IpI7cfVE" target="_blank" class="btn-link">点击进入网站</a>
+                    <p>SS协议 中转</p>
+                    <a href="https://777.youtu6.shop/register?code=IpI7cfVE" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>可乐云</h3>
-                    [span_10](start_span)<p>全线优化[span_10](end_span)</p>
-                    <a href="https://47.238.225.31:1000/#/register?code=DwSm5kx3" target="_blank" class="btn-link">点击进入网站</a>
+                    <p>稳定线路</p>
+                    <a href="https://47.238.225.31:1000/#/register?code=DwSm5kx3" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>TAN</h3>
-                    [span_11](start_span)<p>专业线路支持[span_11](end_span)</p>
-                    <a href="https://honven.dedicated-afflink.com/#/auth/DJJ4ny7a" target="_blank" class="btn-link">点击进入网站</a>
+                    <p>专业线路</p>
+                    <a href="https://honven.dedicated-afflink.com/#/auth/DJJ4ny7a" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>魔戒</h3>
-                    [span_12](start_span)<p>老牌稳定选择[span_12](end_span)</p>
-                    <a href="https://www.mojie.me/#/register?code=BVx7yRaz" target="_blank" class="btn-link">点击进入网站</a>
+                    <p>老牌机场</p>
+                    <a href="https://www.mojie.me/#/register?code=BVx7yRaz" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>飞鸟云</h3>
-                    [span_13](start_span)<p>高带宽支持[span_13](end_span)</p>
-                    <a href="https://01.fnxx.cc/#/register?code=hxDzgRh4" target="_blank" class="btn-link">点击进入网站</a>
+                    <p>高速节点</p>
+                    <a href="https://01.fnxx.cc/#/register?code=hxDzgRh4" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>贝贝云</h3>
-                    [span_14](start_span)<p>节点丰富[span_14](end_span)</p>
-                    <a href="https://777.2beibei.com/register?code=hkwbV0wg" target="_blank" class="btn-link">点击进入网站</a>
+                    <p>优质服务</p>
+                    <a href="https://777.2beibei.com/register?code=hkwbV0wg" target="_blank" class="btn">点击进入</a>
                 </div>
 
-                <div class="url-card">
+                <div class="item-card">
                     <h3>一云梯</h3>
-                    [span_15](start_span)<p>中转 Trojan 机场，IPLC 专线[span_15](end_span)</p>
-                    <div style="color:var(--text-dim); font-size:12px; text-align:center; padding:10px; border:1px dashed #334155; border-radius:8px;">暂无直接链接</div>
+                    [span_5](start_span)<p>中转 Trojan 机场 IPLC专线[span_5](end_span)</p>
+                    <div style="color:var(--dim); font-size:12px; text-align:center; padding:10px; border:1px dashed #334155; border-radius:8px">暂无链接</div>
                 </div>
-            </div>
-
-            <div style="margin-top:40px; background:var(--card-bg); padding:24px; border-radius:20px; border: 1px solid rgba(255, 255, 255, 0.05);">
-                <h3 style="margin-top:0; color:var(--accent);">📊 线路与协议说明</h3>
-                <p style="font-size:14px; color:var(--text-dim); line-height:1.8;">
-                    [span_16](start_span)• <b>线路类型：</b>speedcat、龙猫云、Flyingbird、一云梯线路类型相同[span_16](end_span)<br>
-                    [span_17](start_span)• <b>支持协议：</b>Shadowsocks、V2ray 和 Trojan[span_17](end_span)<br>
-                    [span_18](start_span)• <b>顶级专线：</b>全线支持 IPLC、IEPL 专线[span_18](end_span)
-                </p>
             </div>
         </div>
 
-        <footer>⚠️ 本页面仅为个人整理分享，请在合法范围内使用</footer>
+        <footer style="text-align:center; padding:40px; font-size:12px; color:var(--dim)">
+            ⚠️ 本页面仅为个人整理分享
+        </footer>
     </div>
 
     <script>
-        function onSuccess(token) {
+        function unlock() {
             const lock = document.getElementById('lock-screen');
-            const content = document.getElementById('content-wrapper');
-
+            const main = document.getElementById('main-content');
             lock.style.opacity = '0';
-            lock.style.transform = 'scale(1.1)';
-            
             setTimeout(() => {
                 lock.style.display = 'none';
-                content.style.display = 'block';
-                document.body.style.overflow = 'auto'; // 恢复滚动
-                setTimeout(() => {
-                    content.style.opacity = '1';
-                    content.style.transform = 'translateY(0)';
-                }, 50);
-            }, 600);
+                main.style.display = 'block';
+                document.body.style.overflow = 'auto';
+                setTimeout(() => main.style.opacity = '1', 50);
+            }, 800);
         }
     </script>
 </body>
