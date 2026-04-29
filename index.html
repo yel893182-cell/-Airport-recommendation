@@ -3,181 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>安全验证 - 机场推荐合集</title>
+    <title>机场推荐合集【小秋】</title>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
         :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --primary: #60a5fa;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --accent: #6366f1;
             --success: #22c55e;
-            --text: #e5e7eb;
         }
 
-        body, html {
+        body {
             margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg);
-            font-family: -apple-system, sans-serif;
-            color: var(--text);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+            overflow-x: hidden;
         }
 
-        /* 全屏拦截层 */
-        #verify-overlay {
+        /* --- 验证锁屏层 --- */
+        #lock-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg);
+            inset: 0;
+            background: var(--bg-color);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10000;
-            opacity: 1;
-            transition: opacity 0.5s ease;
+            z-index: 99999;
+            transition: opacity 0.6s ease;
         }
 
-        .verify-card {
-            background: var(--card);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        .verify-box {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             width: 90%;
-            max-width: 350px;
-            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 400px;
         }
 
-        .verify-card h2 {
-            margin: 0 0 10px;
-            color: var(--primary);
-            font-size: 22px;
-        }
+        .verify-box h2 { margin-bottom: 0.5rem; color: var(--accent); }
+        .verify-box p { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 2rem; }
 
-        .verify-card p {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-bottom: 25px;
-        }
+        /* --- 主内容布局 --- */
+        #main-app { display: none; opacity: 0; transition: opacity 1s ease; }
 
-        /* 验证码容器 */
-        .cf-turnstile {
-            margin: 0 auto;
-            min-height: 65px;
-        }
-
-        /* 内容容器 - 初始隐藏 */
-        #main-content {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-
-        /* 页面装饰样式 */
         header {
-            background: linear-gradient(135deg, #1e40af, #7e22ce);
-            padding: 40px 20px;
+            background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+            padding: 3rem 1rem;
             text-align: center;
-            font-size: 24px;
-            font-weight: bold;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
-        .content-body {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
+        header h1 { margin: 0; font-size: 1.8rem; letter-spacing: 1px; }
+
+        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+
+        /* 标签云优化 */
+        .tag-cloud {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 2rem;
         }
 
-        .info-card {
-            background: var(--card);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
+        .tag {
+            background: #334155;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .link-btn {
-            display: block;
+        /* 链接卡片网格 */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .link-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            background: #243147;
+        }
+
+        .link-card h3 { margin: 0 0 0.5rem 0; font-size: 1.2rem; color: var(--accent); }
+        .link-card p { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem; line-height: 1.4; }
+
+        .visit-btn {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
             background: var(--success);
             color: white;
             text-decoration: none;
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            margin-top: 10px;
-            font-weight: bold;
+            padding: 0.7rem 0;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .visit-btn:hover { opacity: 0.9; }
+
+        footer { text-align: center; padding: 3rem; color: var(--text-dim); font-size: 0.8rem; }
+
+        /* 响应式调整 */
+        @media (max-width: 640px) {
+            header { padding: 2rem 1rem; }
+            header h1 { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
 
-<div id="verify-overlay">
-    <div class="verify-card">
-        <h2>安全验证</h2>
-        <p>请点击下方进行人机验证</p>
-        <div class="cf-turnstile" 
-             data-sitekey="0x4AAAAAADF3hC0FcwaMxvx3" 
-             data-callback="onVerifySuccess"
-             data-theme="dark">
-        </div>
-        <div id="error-msg" style="color: #ef4444; font-size: 12px; margin-top: 15px; display: none;">
-            验证码加载失败，请检查网络或刷新重试
-        </div>
-    </div>
-</div>
-
-<div id="main-content">
-    <header>✈️ 机场推荐合集【小秋】</header>
-    
-    <div class="content-body">
-        <div class="info-card">
-            <h3>📌 节点说明</h3>
-            <p>本列表仅供个人学习科研使用，请遵守当地法律法规。</p>
-        </div>
-
-        <div class="info-card">
-            <h3>🔗 推荐列表</h3>
-            <p><strong>良心云</strong> - 稳定直连</p>
-            <a href="https://xn--9kqz23b19z.com/#/register?code=UTpQq1dO" class="link-btn">立即访问</a>
-            
-            <p style="margin-top:20px;"><strong>蓝莓桥</strong> - 备用多线</p>
-            <a href="https://berrypass.net/#/register?code=rHhSH0vz" class="link-btn">入口 1</a>
+    <div id="lock-screen">
+        <div class="verify-box">
+            <h2>安全验证</h2>
+            <p>正在进行环境安全检测，请稍后...</p>
+            <div class="cf-turnstile" 
+                 data-sitekey="0x4AAAAAADF3hCOFcwaMxvx3" 
+                 data-callback="onVerify">
+            </div>
+            <div id="timeout-hint" style="display:none; margin-top:1rem; font-size:0.8rem; color:#f87171;">
+                加载过慢？请检查网络或刷新页面
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    // 验证成功后的回调函数
-    function onVerifySuccess(token) {
-        console.log("验证通过");
-        const overlay = document.getElementById('verify-overlay');
-        const main = document.getElementById('main-content');
+    <div id="main-app"></div>
 
-        // 1. 隐藏验证层
-        overlay.style.opacity = '0';
-        setTimeout(() => {
-            overlay.style.display = 'none';
+    <template id="page-template">
+        <header>
+            <h1>✈️ 机场推荐合集（自用整理）</h1>
+        </header>
+
+        <div class="container">
+            <div class="tag-cloud">
+                <span class="tag">魔戒</span><span class="tag">赔钱</span><span class="tag">一分</span>
+                <span class="tag">飞鸟云</span><span class="tag">可乐云</span><span class="tag">Take off</span>
+                <span class="tag">XSUS</span><span class="tag" style="color: #fbbf24;">AnyTLS[遥遥领先]</span>
+                <span class="tag">龙猫云</span><span class="tag">悠兔</span><span class="tag">良心云</span>
+                <span class="tag">TAG</span><span class="tag">蓝莓桥</span><span class="tag">iNetS</span>
+            </div>
+
+            <div class="link-grid">
+                <div class="link-card">
+                    <h3>良心云</h3>
+                    <p>直连线路，节点较多，适合入门首选。</p>
+                    <a href="https://xn--9kqz23b19z.com/#/register?code=UTpQq1dO" target="_blank" class="visit-btn">点击进入</a>
+                </div>
+
+                <div class="link-card">
+                    <h3>蓝莓桥</h3>
+                    <p>备用多线路选择，稳定性较好。</p>
+                    <div style="display:flex; gap:10px;">
+                        <a href="https://berrypass.net/#/register?code=rHhSH0vz" target="_blank" class="visit-btn">链接 1</a>
+                        <a href="https://berrypass.net/#/register?code=l0pRfv8d" target="_blank" class="visit-btn">链接 2</a>
+                    </div>
+                </div>
+
+                <div class="link-card">
+                    <h3>XSUS</h3>
+                    <p>老牌推荐，多协议支持，体验流畅。</p>
+                    <a href="https://xsus1.com/register?code=RhcmDfGp" target="_blank" class="visit-btn">点击进入</a>
+                </div>
+
+                <div class="link-card">
+                    <h3>龙猫云</h3>
+                    <p>相同线路类型推荐，中转优化。</p>
+                    <a href="https://inv06.lmaff01.cc/register?aff=zGMaXnSO" target="_blank" class="visit-btn">点击进入</a>
+                </div>
+
+                </div>
             
-            // 2. 显示主内容
-            main.style.display = 'block';
+            <div style="margin-top:2rem; background:var(--card-bg); padding:1.5rem; border-radius:1rem;">
+                <h3 style="color:var(--accent); margin-top:0;">📊 线路说明</h3>
+                <p style="font-size:0.9rem; color:var(--text-dim);">
+                    • speedcat、龙猫云、Flyingbird、一云梯线路类型相似<br>
+                    • 协议支持：Shadowsocks, V2ray, Trojan<br>
+                    • 线路质量：IPLC, IEPL 专线
+                </p>
+            </div>
+        </div>
+
+        <footer>
+            ⚠️ 本页面仅为个人整理分享，链接均为邀请链接
+        </footer>
+    </template>
+
+    <script>
+        // 验证成功后的操作
+        function onVerify(token) {
+            console.log("验证通过");
+            const lockScreen = document.getElementById('lock-screen');
+            const mainApp = document.getElementById('main-app');
+            const template = document.getElementById('page-template');
+
+            // 1. 隐藏锁屏
+            lockScreen.style.opacity = '0';
+            
+            // 2. 注入内容
             setTimeout(() => {
-                main.style.opacity = '1';
-            }, 50);
-        }, 500);
-    }
+                lockScreen.style.display = 'none';
+                const content = template.content.cloneNode(true);
+                mainApp.appendChild(content);
+                
+                // 3. 显示主程序
+                mainApp.style.display = 'block';
+                setTimeout(() => {
+                    mainApp.style.opacity = '1';
+                }, 50);
+            }, 600);
+        }
 
-    // 检测脚本加载是否失败
-    window.addEventListener('load', function() {
+        // 超时提示逻辑
         setTimeout(() => {
-            const container = document.querySelector('.cf-turnstile');
-            if (container && container.innerHTML === "") {
-                document.getElementById('error-msg').style.display = 'block';
+            if (document.getElementById('lock-screen').style.display !== 'none') {
+                document.getElementById('timeout-hint').style.display = 'block';
             }
-        }, 5000); // 5秒后如果还没加载出来就显示错误
-    });
-</script>
-
+        }, 8000);
+    </script>
 </body>
 </html>
