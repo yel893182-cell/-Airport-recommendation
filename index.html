@@ -12,6 +12,7 @@
             background: #0f172a;
             color: #e5e7eb;
         }
+
         header {
             text-align: center;
             padding: 30px;
@@ -19,11 +20,13 @@
             font-size: 28px;
             font-weight: bold;
         }
+
         .container {
             padding: 20px;
             max-width: 1000px;
             margin: auto;
         }
+
         .card {
             background: #1e293b;
             padding: 20px;
@@ -31,17 +34,21 @@
             border-radius: 12px;
             box-shadow: 0 0 10px rgba(0,0,0,0.4);
         }
+
         .card h2 {
             margin-top: 0;
             color: #60a5fa;
         }
+
         a {
             color: #22c55e;
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }
+
         .tag {
             display: inline-block;
             background: #334155;
@@ -50,12 +57,15 @@
             border-radius: 8px;
             font-size: 14px;
         }
+
         footer {
             text-align: center;
             padding: 10px 20px 20px;
             font-size: 12px;
             color: #94a3b8;
         }
+
+        /* 全屏遮罩层 核心样式 */
         #fullscreen-lock {
             position: fixed;
             top: 0;
@@ -68,19 +78,25 @@
             align-items: center;
             z-index: 99999;
         }
+        /* 主页内容默认隐藏 */
         #main-content {
             display: none;
         }
     </style>
 </head>
 <body>
+
+<!-- 全屏人机验证拦截层 打开网站最先看到 -->
 <div id="fullscreen-lock">
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAADF3hC0FcwaMxvx3" data-callback="turnstileSuccess"></div>
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAADF3hC0FcwaMxvx3"></div>
 </div>
+
+<!-- 原本全部网站内容 验证成功才显示 -->
 <div id="main-content">
 <header>
     ✈️ 机场推荐合集（自用整理）
 </header>
+
 <div class="container">
     <div class="card">
         <h2>📌 机场列表</h2>
@@ -103,12 +119,14 @@
             <span class="tag">蓝莓桥</span>
             <span class="tag">iNetS</div>
     </div>
+
     <div class="card">
         <h2>📊 线路说明</h2>
         <p>speedcat、龙猫云、Flyingbird、一云梯是相同线路类型</p>
         <p>协议：Shadowsocks、V2ray、Trojan</p>
         <p>专线：IPLC、IEPL</p>
     </div>
+
     <div class="card">
         <h2>🔗 邀请链接</h2>
         <p>良心云（直连）：<br>
@@ -142,15 +160,19 @@
         <p>一云梯（中转 Trojan / IPLC专线）</p>
     </div>
 </div>
+
 <footer>
     ⚠️ 本页面仅为个人整理分享
 </footer>
 </div>
+
+<!-- 验证通过自动解锁全屏遮挡 -->
 <script>
 function turnstileSuccess() {
     document.getElementById('fullscreen-lock').style.display = 'none';
     document.getElementById('main-content').style.display = 'block';
 }
 </script>
+
 </body>
 </html>
