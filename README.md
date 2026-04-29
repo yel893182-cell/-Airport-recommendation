@@ -19,18 +19,7 @@
 做导航页
 
 🚀 使用方法
-
-下载或复制 index.html
-
-用浏览器打开即可使用
-
-可上传到： 
-
-GitHub Pages
-
-任意服务器
-
-本地直接打开
+点击你想用的机场链接 注册并登录 购买即可 订阅链接加入到客户端 
 
 📌 机场列表
 
@@ -146,8 +135,7 @@ https://777.2beibei.com/register?code=hkwbV0wg
 
 🚀 自动更新订阅
 
-📬
+📬 xingyuan1025@gmail.com
 
-如果你觉得这个整理对你有用，可以自己二次优化 or Fork 一份 👍
 
 # -Airport-recommendation
