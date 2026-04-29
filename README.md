@@ -1,7 +1,10 @@
-✈️ 机场推荐合集（自用整理）
+# ✈️ 机场推荐合集（自用整理）
 
-一个基于个人使用体验整理的机场合集页面，已制作成 HTML 可视化网站，开箱即用。
- 网站地址https://661015.xyz
+[🌐 访问网站](https://661015.xyz)
+
+一个基于个人实际使用体验整理的机场合集页面，已制作成 HTML 可视化网站，开箱即用。
+
+---
 
 ## 🌐 项目简介
 
@@ -37,49 +40,54 @@
 
 ## 🔗 邀请链接汇总
 
-### 良心云（直连）
-https://xn--9kqz23b19z.com/#/register?code=UTpQq1dO
+<details>
+<summary>点击展开全部邀请码</summary>
 
-### 蓝莓桥
-- https://berrypass.net/#/register?code=rHhSH0vz
-- https://berrypass.net/#/register?code=l0pRfv8d
+- **良心云（直连）**  
+  https://xn--9kqz23b19z.com/#/register?code=UTpQq1dO
 
-### XSUS
-https://xsus1.com/register?code=RhcmDfGp
+- **蓝莓桥**  
+  https://berrypass.net/#/register?code=rHhSH0vz  
+  https://berrypass.net/#/register?code=l0pRfv8d
 
-### iNetS（直连 · 节点少 · 倍率1）
-https://inets.io/#/register?code=BDMQDfCD
+- **XSUS**  
+  https://xsus1.com/register?code=RhcmDfGp
 
-### 赔钱机场
-https://www.xn--mes358aby2apfg.site/register?code=Gqk4rFHN&cover=sfw
+- **iNetS（直连 · 节点少 · 倍率1）**  
+  https://inets.io/#/register?code=BDMQDfCD
 
-### 牛逼机场
-https://6.66jc.top/#/login?code=rquiTQW6
+- **赔钱机场**  
+  https://www.xn--mes358aby2apfg.site/register?code=Gqk4rFHN&cover=sfw
 
-### 龙猫云
-- https://inv06.lmaff01.cc/register?aff=zGMaXnSO
-- https://inv06.lmaff01.cc/register?aff=aVdhAiTe
+- **牛逼机场**  
+  https://6.66jc.top/#/login?code=rquiTQW6
 
-### 悠兔（SS协议 · 中转）
-https://777.youtu6.shop/register?code=IpI7cfVE
+- **龙猫云**  
+  https://inv06.lmaff01.cc/register?aff=zGMaXnSO  
+  https://inv06.lmaff01.cc/register?aff=aVdhAiTe
 
-### 可乐云
-https://47.238.225.31:1000/#/register?code=DwSm5kx3
+- **悠兔（SS协议 · 中转）**  
+  https://777.youtu6.shop/register?code=IpI7cfVE
 
-### TAG
-https://honven.dedicated-afflink.com/#/auth/DJJ4ny7a
+- **可乐云**  
+  https://47.238.225.31:1000/#/register?code=DwSm5kx3
 
-### 魔戒
-https://www.mojie.me/#/register?code=BVx7yRaz
+- **TAG**  
+  https://honven.dedicated-afflink.com/#/auth/DJJ4ny7a
 
-### 飞鸟云
-https://01.fnxx.cc/#/register?code=hxDzgRh4
+- **魔戒**  
+  https://www.mojie.me/#/register?code=BVx7yRaz
 
-### 贝贝云
-https://777.2beibei.com/register?code=hkwbV0wg
+- **飞鸟云**  
+  https://01.fnxx.cc/#/register?code=hxDzgRh4
 
-### 一云梯
-中转 Trojan 机场 / IPLC 专线
+- **贝贝云**  
+  https://777.2beibei.com/register?code=hkwbV0wg
+
+- **一云梯**  
+  中转 Trojan 机场 / IPLC 专线
+
+</details>
 
 ## ⭐ 推荐用途
 
@@ -88,7 +96,7 @@ https://777.2beibei.com/register?code=hkwbV0wg
 - 自用收藏
 - 新手入门参考
 
-## 💡 
+## 💡 可扩展功能建议
 
 - 🔍 搜索 / 分类筛选功能
 - ⭐ 推荐指数评分系统
