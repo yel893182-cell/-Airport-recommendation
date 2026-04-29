@@ -27,7 +27,7 @@
         /* --- 人机验证层 --- */
         #fullscreen-lock {
             position: fixed;
-            inset: 0; /* 替代 top/left/width/height */
+            inset: 0;
             background: var(--bg-color);
             display: flex;
             flex-direction: column;
@@ -44,98 +44,44 @@
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             border: 1px solid #334155;
+            min-height: 180px; /* 保证验证码有足够空间展示 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .verify-box h3 { margin: 0 0 10px; color: var(--accent-blue); font-size: 24px; }
-        .verify-box p { font-size: 14px; color: var(--text-muted); margin-bottom: 25px; }
+        .verify-box p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
 
-        /* --- 动态加载容器 --- */
-        #app-container {
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
+        #app-container { opacity: 0; transition: opacity 0.8s ease; }
 
-        /* --- 页面主体样式 --- */
+        /* --- 主体页面内容样式 --- */
         header {
             text-align: center;
             padding: 40px 20px;
             background: linear-gradient(135deg, #1e3a8a, #9333ea);
             font-size: 28px;
             font-weight: 800;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            border-bottom: 2px solid rgba(255,255,255,0.1);
         }
-
-        .container {
-            padding: 30px 20px;
-            max-width: 1000px;
-            margin: auto;
-        }
-
+        .container { padding: 30px 20px; max-width: 1000px; margin: auto; }
         .card {
             background: var(--card-bg);
             padding: 25px;
             margin-bottom: 25px;
             border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
             border: 1px solid rgba(255,255,255,0.05);
         }
-
-        .card h2 { margin-top: 0; color: var(--accent-blue); display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 20px; }
-
-        /* 标签样式优化 */
+        .card h2 { margin-top: 0; color: var(--accent-blue); border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 20px; }
         .tags-container { display: flex; flex-wrap: wrap; gap: 10px; }
-        .tag {
-            background: #334155;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 14px;
-            transition: all 0.2s;
-            cursor: default;
-        }
-        .tag:hover { background: var(--accent-blue); color: #fff; transform: translateY(-2px); }
-
-        /* 链接网格化设计 (重点优化部分) */
-        .link-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
-        }
-
-        .link-item {
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .link-item:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-blue);
-            box-shadow: 0 5px 15px rgba(96, 165, 250, 0.2);
-        }
-
+        .tag { background: #334155; padding: 6px 14px; border-radius: 20px; font-size: 14px; }
+        
+        .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+        .link-item { background: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 15px; text-align: center; }
         .link-title { font-weight: bold; font-size: 18px; margin-bottom: 5px; }
         .link-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 15px; height: 18px; }
-
-        .btn {
-            display: inline-block;
-            background: var(--accent-green);
-            color: #fff;
-            text-decoration: none;
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background 0.2s;
-            width: calc(100% - 40px);
-        }
-        .btn:hover { background: #16a34a; }
+        .btn { display: inline-block; background: var(--accent-green); color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: bold; width: calc(100% - 40px); }
         .btn-group { display: flex; gap: 10px; }
         .btn-group .btn { width: 100%; padding: 8px 0; }
-
         footer { text-align: center; padding: 20px; font-size: 13px; color: var(--text-muted); }
     </style>
 </head>
@@ -144,10 +90,12 @@
 <div id="fullscreen-lock">
     <div class="verify-box">
         <h3>安全验证</h3>
-        <p>正在检测您的访问环境，请完成下方验证</p>
+        <p>正在检测您的访问环境，请稍候...</p>
+        
         <div class="cf-turnstile" 
              data-sitekey="0x4AAAAAADF3hC0FcwaMxvx3" 
              data-callback="onSuccess"
+             data-error-callback="onError"
              data-theme="dark">
         </div>
     </div>
@@ -157,7 +105,6 @@
 
 <template id="real-content">
     <header>✈️ 机场推荐合集（自用整理）</header>
-
     <div class="container">
         <div class="card">
             <h2>📌 机场列表</h2>
@@ -186,7 +133,6 @@
                     <div class="link-desc">直连节点</div>
                     <a href="https://xn--9kqz23b19z.com/#/register?code=UTpQq1dO" target="_blank" class="btn">点击进入</a>
                 </div>
-
                 <div class="link-item">
                     <div class="link-title">蓝莓桥</div>
                     <div class="link-desc">防失联备用链接</div>
@@ -195,82 +141,35 @@
                         <a href="https://berrypass.net/#/register?code=l0pRfv8d" target="_blank" class="btn">路线 2</a>
                     </div>
                 </div>
-
                 <div class="link-item">
                     <div class="link-title">XSUS</div>
                     <div class="link-desc">稳定推荐</div>
                     <a href="https://xsus1.com/register?code=RhcmDfGp" target="_blank" class="btn">点击进入</a>
                 </div>
-
-                <div class="link-item">
-                    <div class="link-title">iNetS</div>
-                    <div class="link-desc">直连 | 节点少 | 倍率1</div>
-                    <a href="https://inets.io/#/register?code=BDMQDfCD" target="_blank" class="btn">点击进入</a>
-                </div>
-
-                <div class="link-item">
-                    <div class="link-title">赔钱机场</div>
-                    <div class="link-desc">高性价比</div>
-                    <a href="https://www.xn--mes358aby2apfg.site/register?code=Gqk4rFHN&cover=sfw" target="_blank" class="btn">点击进入</a>
-                </div>
-
-                <div class="link-item">
-                    <div class="link-title">龙猫云</div>
-                    <div class="link-desc">多入口防封</div>
-                    <div class="btn-group">
-                        <a href="https://inv06.lmaff01.cc/register?aff=zGMaXnSO" target="_blank" class="btn">入口 1</a>
-                        <a href="https://inv06.lmaff01.cc/register?aff=aVdhAiTe" target="_blank" class="btn">入口 2</a>
-                    </div>
-                </div>
-
-                <div class="link-item">
-                    <div class="link-title">悠兔</div>
-                    <div class="link-desc">SS协议 中转</div>
-                    <a href="https://777.youtu6.shop/register?code=IpI7cfVE" target="_blank" class="btn">点击进入</a>
-                </div>
-
-                <div class="link-item">
-                    <div class="link-title">魔戒</div>
-                    <div class="link-desc">老牌稳定</div>
-                    <a href="https://www.mojie.me/#/register?code=BVx7yRaz" target="_blank" class="btn">点击进入</a>
-                </div>
-
-                <div class="link-item">
-                    <div class="link-title">飞鸟云</div>
-                    <div class="link-desc">极速体验</div>
-                    <a href="https://01.fnxx.cc/#/register?code=hxDzgRh4" target="_blank" class="btn">点击进入</a>
-                </div>
-                
                 </div>
         </div>
     </div>
-
     <footer>⚠️ 本页面仅为小秋个人整理分享，请合理使用网络</footer>
 </template>
 
 <script>
-// 验证成功后的执行逻辑
+// 验证成功
 function onSuccess(token) {
     const lockScreen = document.getElementById('fullscreen-lock');
     const appContainer = document.getElementById('app-container');
     const template = document.getElementById('real-content');
 
-    // 1. 锁屏层淡出
     lockScreen.style.opacity = '0';
-    
     setTimeout(() => {
-        // 2. 彻底隐藏锁屏层
         lockScreen.style.display = 'none';
-        
-        // 3. 将真实内容克隆并注入到页面中
         appContainer.appendChild(template.content.cloneNode(true));
-        
-        // 4. 真实内容淡入显示，效果更平滑丝滑
-        setTimeout(() => {
-            appContainer.style.opacity = '1';
-        }, 50);
-        
-    }, 500); // 500毫秒对应 css 中的 transition 时间
+        setTimeout(() => { appContainer.style.opacity = '1'; }, 50);
+    }, 500);
+}
+
+// 验证失败或网络异常报错
+function onError() {
+    alert("验证码加载失败！\n\n原因可能是：\n1. 请不要在本地直接打开HTML，需上传到服务器访问。\n2. 请检查浏览器是否开启了广告拦截/安全防护。\n3. 当前网络无法连接Cloudflare。");
 }
 </script>
 
