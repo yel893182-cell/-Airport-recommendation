@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <title>机场推荐合集【小秋】</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
         body {
             margin: 0;
@@ -13,7 +12,6 @@
             background: #0f172a;
             color: #e5e7eb;
         }
-
         header {
             text-align: center;
             padding: 30px;
@@ -21,13 +19,11 @@
             font-size: 28px;
             font-weight: bold;
         }
-
         .container {
             padding: 20px;
             max-width: 1000px;
             margin: auto;
         }
-
         .card {
             background: #1e293b;
             padding: 20px;
@@ -35,21 +31,17 @@
             border-radius: 12px;
             box-shadow: 0 0 10px rgba(0,0,0,0.4);
         }
-
         .card h2 {
             margin-top: 0;
             color: #60a5fa;
         }
-
         a {
             color: #22c55e;
             text-decoration: none;
         }
-
         a:hover {
             text-decoration: underline;
         }
-
         .tag {
             display: inline-block;
             background: #334155;
@@ -58,23 +50,38 @@
             border-radius: 8px;
             font-size: 14px;
         }
-
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 10px 20px 20px;
             font-size: 12px;
             color: #94a3b8;
+        }
+        #fullscreen-lock {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #0f172a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+        #main-content {
+            display: none;
         }
     </style>
 </head>
 <body>
-<div class="cf-turnstile" data-sitekey="0x4AAAAAADF3hCOFcwaMxvx3"></div>
+<div id="fullscreen-lock">
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAADF3hC0FcwaMxvx3" data-callback="turnstileSuccess"></div>
+</div>
+<div id="main-content">
 <header>
     ✈️ 机场推荐合集（自用整理）
 </header>
-
 <div class="container">
-
     <div class="card">
         <h2>📌 机场列表</h2>
         <div>
@@ -94,69 +101,56 @@
             <span class="tag">良心云</span>
             <span class="tag">TAG</span>
             <span class="tag">蓝莓桥</span>
-            <span class="tag">iNetS</span>
-        </div>
+            <span class="tag">iNetS</div>
     </div>
-
     <div class="card">
         <h2>📊 线路说明</h2>
         <p>speedcat、龙猫云、Flyingbird、一云梯是相同线路类型</p>
         <p>协议：Shadowsocks、V2ray、Trojan</p>
         <p>专线：IPLC、IEPL</p>
     </div>
-
     <div class="card">
         <h2>🔗 邀请链接</h2>
-
         <p>良心云（直连）：<br>
         <a href="https://xn--9kqz23b19z.com/#/register?code=UTpQq1dO" target="_blank">点击进入</a></p>
-
         <p>蓝莓桥：<br>
         <a href="https://berrypass.net/#/register?code=rHhSH0vz" target="_blank">链接1</a><br>
         <a href="https://berrypass.net/#/register?code=l0pRfv8d" target="_blank">链接2</a></p>
-
         <p>XSUS：<br>
         <a href="https://xsus1.com/register?code=RhcmDfGp" target="_blank">点击进入</a></p>
-
         <p>iNetS（直连，节点少 倍率1）：<br>
         <a href="https://inets.io/#/register?code=BDMQDfCD" target="_blank">点击进入</a></p>
-
         <p>赔钱：<br>
         <a href="https://www.xn--mes358aby2apfg.site/register?code=Gqk4rFHN&cover=sfw" target="_blank">点击进入</a></p>
-
         <p>牛逼：<br>
         <a href="https://6.66jc.top/#/login?code=rquiTQW6" target="_blank">点击进入</a></p>
-
         <p>龙猫云：<br>
         <a href="https://inv06.lmaff01.cc/register?aff=zGMaXnSO" target="_blank">链接1</a><br>
         <a href="https://inv06.lmaff01.cc/register?aff=aVdhAiTe" target="_blank">链接2</a></p>
-
         <p>悠兔（SS协议 中转）：<br>
         <a href="https://777.youtu6.shop/register?code=IpI7cfVE" target="_blank">点击进入</a></p>
-
         <p>可乐云：<br>
         <a href="https://47.238.225.31:1000/#/register?code=DwSm5kx3" target="_blank">点击进入</a></p>
-
         <p>TAN：<br>
         <a href="https://honven.dedicated-afflink.com/#/auth/DJJ4ny7a" target="_blank">点击进入</a></p>
-
         <p>魔戒：<br>
         <a href="https://www.mojie.me/#/register?code=BVx7yRaz" target="_blank">点击进入</a></p>
-
         <p>飞鸟云：<br>
         <a href="https://01.fnxx.cc/#/register?code=hxDzgRh4" target="_blank">点击进入</a></p>
-
         <p>贝贝云：<br>
         <a href="https://777.2beibei.com/register?code=hkwbV0wg" target="_blank">点击进入</a></p>
-
         <p>一云梯（中转 Trojan / IPLC专线）</p>
     </div>
-
 </div>
-
 <footer>
     ⚠️ 本页面仅为个人整理分享
 </footer>
-
+</div>
+<script>
+function turnstileSuccess() {
+    document.getElementById('fullscreen-lock').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+}
+</script>
 </body>
 </html>
